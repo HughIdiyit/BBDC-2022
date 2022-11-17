@@ -13,25 +13,19 @@ eines rückwärts durch die Daten.
 einer Lücke als "History" und predicted jeweils 5 zurückliegende Frames.
 * Sowohl Mocap- als auch Video-Prediction werden mit einem sliding window über die zu füllenden Frames angewendet.
 
-## Automatische Ausführung der Prediction
-* Um alle Ergebnisse automatisch zu erstellen muss nur die Datei `prediction.py` ausgeführt werden.
-* In dieser sind bereits die trainierten Modelle ausgewählt und alle Einstellungen vorgenommen.
-* Zur Reproduktion unserer Daten reicht daher die Ausführung dieses Skripts.
-
-## Ausführung des Trainings
-1. Ausführung der Datei `preprocessing.py`
-    * Die gewünschten Sequenzlängen, sowohl für die Eingabe als auch für das Label, werden als Kommandozeilen Argumente
-an die Methoden übergeben.
-2. Das Training der Mocap Daten befindet sich in `mocap_train.py`
-    * In dieser Datei befinden sich globale Variablen (komplett in Großbuchstaben geschrieben), in denen das Training
-konfiguriert werden kann.
-    * Das trainierte Model wird letztlich automatisch in den Ordner `best_model_mocap` exportiert.
-3. Training der Video Prediction
-    * Die Video Prediction erfolgt zweiseitig auf den Daten.
-    * Training des "vorwärts"-Models mittels `video_train.py`.
-    * Die "Rückrichtung" wird in `reverse_video_train.py` trainiert.
-    * Auch hier wird in beiden Dateien das trainierte Model automatisch exportiert.
-      * In `torch_models/convlstm/` bzw. `torch_models/reverse_convlstm/`
+## Training the models
+1. Run the preprocessing script `preprocessing.py`
+    * The sequence lengths for the model input and label are passed as command-line arguments
+    * The arguments are parsed and passed to the function calls
+2. The mocap model is trained in the `mocap_train.py` file
+    * The training is configured via global variables in the file, e.g. *BS* for the batch size
+    * The trained model is saved to the `best_model_mocap` folder
+3. Training the video prediction model
+    * The video prediction is a bi-directional temporal reconstruction
+    * The "forward" model is trained in `video_train.py`
+    * The "reverse" model is trained via `reverse_video_train.py`
+    * Both trained models are saved to their respective folders
+        * `torch_models/convlstm/` and `torch_models/reverse_convlstm/`
 
 ## Ausführung der Prediction
 * Ausführung von `preprocessing.py`
