@@ -1,17 +1,13 @@
-# Anleitung zur Ausführung des Codes der Gruppe Kornstante
-* Diese Anleitung ist aufgeteilt in die Ausführung unseres Trainings, falls erwünscht, 
-und der Prediction mit unserem bereits trainierten Model.
-* Zuerst müssen die Requirements aus `requirements.txt` installiert werden.
-* Der data-Ordner muss in derselben Directory liegen, wie die mitgelieferten Dateien.
+# BBDC 2022: A guide for executing the code of the team Kornstante
+* Firstly, the requirements given in `requirements.txt` have to be installed.
+* The data given in the challenge has to be located in a data directory within the root directory.
 
 ## General approach
-* Mocap: Wurde mit einem 1-Layer LSTM gelöst, mit einer History von 105 und einer Vorhersage von einem Frame.
-* Video: Wurde als inbetweening-Problem behandelt. Es wurden zwei ConvLSTMs trainiert. Eines arbeitet sich vorwärts,
-eines rückwärts durch die Daten.
-  * ConvLSTM forward: Nimmt sich 15 Frames vor einer Lücke als History und predicted die 5 folgenden Frames.
-  * ConvLSTM backward: Zunächst werden die Daten entlang der Zeitachse umgekehrt. Das Netz nimmt sich 15 Frames nach
-einer Lücke als "History" und predicted jeweils 5 zurückliegende Frames.
-* Sowohl Mocap- als auch Video-Prediction werden mit einem sliding window über die zu füllenden Frames angewendet.
+* Mocap: Was solved using a one layer LSTM, with a history of 105 and prediction length of one frame.
+* Video: Was treated as an inbetweening problem. Two convolutional LSTMs were trained. One predicts in the forward direction, the other one predicts in the backward direction.
+  * ConvLSTM forward: Takes 15 frames in front of a given gap as it's history and predicts the following 5 frames.
+  * ConvLSTM backward: Firstly, the data is reversed along the time axis. The network takes 15 frames after a gap as it's history and predicts the 5 frames in front of the history frames.
+* The mocap and video prediction are carried out using a sliding window over the missing frames.
 
 ## Training the models
 1. Run the preprocessing script `preprocessing.py`
@@ -27,10 +23,10 @@ einer Lücke als "History" und predicted jeweils 5 zurückliegende Frames.
     * Both trained models are saved to their respective folders
         * `torch_models/convlstm/` and `torch_models/reverse_convlstm/`
 
-## Ausführung der Prediction
-* Ausführung von `preprocessing.py`
+## Executing the prediction
+* Run `preprocessing.py`
 ### Mocap Prediction
-1. Ausführung von `mocap_prediction.py`
-2. Postprocessing der Daten durch Ausführung von `mocap_postprocessing.py`
+1. Run `mocap_prediction.py`
+2. Run `mocap_postprocessing.py`
 ### Video Prediction
-1. Ausführung von `vid_pred_twosided.py`
+1. Run `vid_pred_twosided.py`
